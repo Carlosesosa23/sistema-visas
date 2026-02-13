@@ -49,37 +49,47 @@ export function ExcelImporter() {
                 if (sheetName.includes('info incompleta')) return;
 
                 // 1. Detect Headers in Row 1 (or first non-empty row)
+                // 1. Detect Headers (Scan first 10 rows)
+                let headerRowNumber = 1;
                 const colMap: Record<string, number> = {
-                    name: 1, // Fallbacks
-                    date: 2,
-                    time: 3,
-                    phone: 4,
-                    ds: 5,
-                    email: 6,
-                    tags: 7,
-                    password: 8,
-                    observation: 9
+                    name: -1,
+                    date: -1,
+                    time: -1,
+                    phone: -1,
+                    ds: -1,
+                    email: -1,
+                    tags: -1,
+                    password: -1,
+                    observation: -1
                 };
 
-                // Scan Row 1 for headers
-                const headerRow = worksheet.getRow(1);
-                headerRow.eachCell((cell, colNumber) => {
-                    const val = (cell.text || cell.value?.toString() || '').toLowerCase().trim();
-                    if (val.includes('nombre') || val.includes('cliente')) colMap.name = colNumber;
-                    else if (val.includes('fecha') || val.includes('cita')) colMap.date = colNumber;
-                    else if (val.includes('hora')) colMap.time = colNumber;
-                    else if (val.includes('celular') || val.includes('telefono') || val.includes('teléfono') || val.includes('móvil')) colMap.phone = colNumber;
-                    else if (val.includes('ds') || val.includes('aplicacion') || val.includes('aplicación')) colMap.ds = colNumber;
-                    else if (val.includes('correo') || val.includes('email')) colMap.email = colNumber;
-                    else if (val.includes('listado') || val.includes('tag')) colMap.tags = colNumber;
-                    else if (val.includes('contraseña') || val.includes('password') || val.includes('clave')) colMap.password = colNumber;
-                    else if (val.includes('observacion') || val.includes('nota')) colMap.observation = colNumber;
-                });
+                for (let r = 1; r <= 10; r++) {
+                    const row = worksheet.getRow(r);
+                    let matches = 0;
+                    row.eachCell((cell, colNumber) => {
+                        const val = (cell.text || cell.value?.toString() || '').toLowerCase().trim();
+                        if (val.includes('nombre') || val.includes('cliente')) { colMap.name = colNumber; matches++; }
+                        else if (val.includes('fecha') || val.includes('cita')) { colMap.date = colNumber; matches++; }
+                        else if (val.includes('hora')) { colMap.time = colNumber; matches++; }
+                        else if (val.includes('celular') || val.includes('telefono') || val.includes('teléfono') || val.includes('móvil')) { colMap.phone = colNumber; matches++; }
+                        else if (val.includes('ds') || val.includes('aplicacion') || val.includes('aplicación')) { colMap.ds = colNumber; matches++; }
+                        else if (val.includes('correo') || val.includes('email')) { colMap.email = colNumber; matches++; }
+                        else if (val.includes('listado') || val.includes('tag')) { colMap.tags = colNumber; matches++; }
+                        else if (val.includes('contraseña') || val.includes('password') || val.includes('clave')) { colMap.password = colNumber; matches++; }
+                        else if (val.includes('observacion') || val.includes('nota') || val.includes('seguimiento')) { colMap.observation = colNumber; matches++; }
+                    });
+
+                    if (matches >= 2) { // Assume valid header if at least 2 keywords match
+                        headerRowNumber = r;
+                        console.log(`Headers found at row ${r}`, colMap);
+                        break;
+                    }
+                }
 
                 console.log(`Sheet "${sheetName}" mapping:`, colMap);
 
                 worksheet.eachRow((row, rowNumber) => {
-                    if (rowNumber <= 1) return; // Skip headers
+                    if (rowNumber <= headerRowNumber) return; // Skip headers detected
 
                     // Use detected columns
                     const nameCell = row.getCell(colMap.name);
@@ -161,7 +171,7 @@ export function ExcelImporter() {
                     // Construct Notes
                     const notesParts = [];
                     // if (dsAppId) notesParts.push(`DS App: ${dsAppId}`); // Mapped to field directly now
-                    if (observacion) notesParts.push(observacion);
+                    if (observacion) notesParts.push(observacion); // This maps the content from OBSERVACIONES column
                     if (password) notesParts.push(`Pass: ${password}`); // Save password in notes for safety if field is full
                     // actually we have password field
 
