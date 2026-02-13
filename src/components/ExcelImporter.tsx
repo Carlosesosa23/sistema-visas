@@ -131,7 +131,7 @@ export function ExcelImporter() {
 
                     // Construct Notes
                     const notesParts = [];
-                    if (dsAppId) notesParts.push(`DS App: ${dsAppId}`);
+                    // if (dsAppId) notesParts.push(`DS App: ${dsAppId}`); // Mapped to field directly now
                     if (observacion) notesParts.push(observacion);
                     if (password) notesParts.push(`Pass: ${password}`); // Save password in notes for safety if field is full
                     // actually we have password field
@@ -143,6 +143,7 @@ export function ExcelImporter() {
                         passportNumber: '—', // Placeholder
                         phone,
                         email,
+                        dsApplicationId: dsAppId, // Mapped correctly
                         status,
                         notes: notesParts.join('\n'),
                         appointmentDate,

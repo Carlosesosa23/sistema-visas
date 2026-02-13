@@ -426,9 +426,14 @@ export function ClientDetails() {
                                 <span className="text-sm font-medium text-slate-700">Formulario DS-160</span>
                                 <div className="flex items-center gap-3">
                                     {ds160Url && (
-                                        <a href={ds160Url} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:underline text-xs font-bold uppercase tracking-wide">
-                                            Ver PDF
-                                        </a>
+                                        <div className="flex items-center gap-2">
+                                            <a href={ds160Url} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 p-1.5 hover:bg-amber-50 rounded-sm transition-colors" title="Ver PDF">
+                                                <Eye className="w-4 h-4" />
+                                            </a>
+                                            <a href={ds160Url} download={`DS160-${client?.firstName || 'client'}.pdf`} className="text-slate-500 hover:text-slate-700 p-1.5 hover:bg-slate-100 rounded-sm transition-colors" title="Descargar PDF">
+                                                <Download className="w-4 h-4" />
+                                            </a>
+                                        </div>
                                     )}
                                     <label className="cursor-pointer text-slate-900 text-xs font-bold hover:underline uppercase tracking-wide">
                                         <input
@@ -445,9 +450,14 @@ export function ClientDetails() {
                                 <span className="text-sm font-medium text-slate-700">Confirmación de Cita</span>
                                 <div className="flex items-center gap-3">
                                     {appointmentConfirmationUrl && (
-                                        <a href={appointmentConfirmationUrl} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:underline text-xs font-bold uppercase tracking-wide">
-                                            Ver PDF
-                                        </a>
+                                        <div className="flex items-center gap-2">
+                                            <a href={appointmentConfirmationUrl} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 p-1.5 hover:bg-amber-50 rounded-sm transition-colors" title="Ver PDF">
+                                                <Eye className="w-4 h-4" />
+                                            </a>
+                                            <a href={appointmentConfirmationUrl} download={`Cita-${client?.firstName || 'client'}.pdf`} className="text-slate-500 hover:text-slate-700 p-1.5 hover:bg-slate-100 rounded-sm transition-colors" title="Descargar PDF">
+                                                <Download className="w-4 h-4" />
+                                            </a>
+                                        </div>
                                     )}
                                     <label className="cursor-pointer text-slate-900 text-xs font-bold hover:underline uppercase tracking-wide">
                                         <input
