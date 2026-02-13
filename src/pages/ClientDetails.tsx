@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useClientStore } from '../store/clientStore';
 import { useForm } from 'react-hook-form';
-import { ArrowLeft, Save, Upload, FileText, Camera, Key, CheckCircle, XCircle, Clock, Trash2, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Save, Upload, FileText, Camera, Key, CheckCircle, XCircle, Clock, Trash2, MessageCircle, Eye, Download, X } from 'lucide-react';
 import type { Client } from '../types';
 import { useEffect, useState } from 'react';
 
@@ -25,6 +25,7 @@ export function ClientDetails() {
     });
 
     const [isUploading, setIsUploading] = useState(false);
+    const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
     useEffect(() => {
         if (client && !isNew) {
@@ -350,37 +351,69 @@ export function ClientDetails() {
                 {/* Documents & Media */}
                 <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-md shadow-sm border border-slate-200 p-6">
+
                         <h3 className="text-md font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase tracking-wide text-sm">
                             <Camera className="w-4 h-4 text-slate-500" />
                             Pasaporte
                         </h3>
-                        <label className={`aspect-video border-2 border-dashed rounded-sm flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden relative
-                            ${passportPhotoUrl ? 'border-amber-500 bg-slate-900' : 'border-slate-200 bg-slate-50 hover:border-slate-900 hover:bg-slate-100'}`}>
 
-                            <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => handleFileUpload(e, 'passportPhotoUrl')}
-                            />
+                        {passportPhotoUrl ? (
+                            <div className="aspect-video border-2 border-amber-500 bg-slate-900 rounded-sm overflow-hidden relative group shadow-md">
+                                <img
+                                    src={passportPhotoUrl}
+                                    alt="Passport Preview"
+                                    className="w-full h-full object-contain"
+                                />
 
-                            {passportPhotoUrl ? (
-                                <img src={passportPhotoUrl} alt="Passport Preview" className="w-full h-full object-contain" />
-                            ) : (
+                                {/* Overlay Actions */}
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
+                                    <div className="flex gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsPhotoModalOpen(true)}
+                                            className="p-2 bg-white text-slate-900 rounded-full hover:bg-amber-400 transition-colors shadow-lg"
+                                            title="Ver foto completa"
+                                        >
+                                            <Eye className="w-5 h-5" />
+                                        </button>
+                                        <a
+                                            href={passportPhotoUrl}
+                                            download={`passport-${client?.firstName || 'client'}.jpg`}
+                                            className="p-2 bg-white text-slate-900 rounded-full hover:bg-amber-400 transition-colors shadow-lg"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            title="Descargar foto"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <Download className="w-5 h-5" />
+                                        </a>
+                                    </div>
+                                    <label className="cursor-pointer px-3 py-1.5 bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-slate-700 transition-colors flex items-center gap-2 shadow-lg border border-slate-700">
+                                        <Upload className="w-3 h-3" />
+                                        Cambiar
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={(e) => handleFileUpload(e, 'passportPhotoUrl')}
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        ) : (
+                            <label className="aspect-video border-2 border-dashed border-slate-200 bg-slate-50 hover:border-slate-900 hover:bg-slate-100 rounded-sm flex flex-col items-center justify-center cursor-pointer transition-all">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload(e, 'passportPhotoUrl')}
+                                />
                                 <div className="flex flex-col items-center text-slate-400">
                                     <Upload className="w-6 h-6 mb-2" />
                                     <span className="text-xs font-bold uppercase tracking-wider">Subir foto</span>
                                 </div>
-                            )}
-
-                            {passportPhotoUrl && (
-                                <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span className="text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                                        <Upload className="w-4 h-4" /> Cambiar
-                                    </span>
-                                </div>
-                            )}
-                        </label>
+                            </label>
+                        )}
                     </div>
 
                     <div className="bg-white rounded-md shadow-sm border border-slate-200 p-6">
@@ -443,6 +476,41 @@ export function ClientDetails() {
                 </div>
 
             </form>
+
+            {/* Photo Modal */}
+            {
+                isPhotoModalOpen && passportPhotoUrl && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm" onClick={() => setIsPhotoModalOpen(false)}>
+                        <div className="relative max-w-7xl max-h-[95vh] w-full flex flex-col items-center animate-in fade-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
+                            <button
+                                onClick={() => setIsPhotoModalOpen(false)}
+                                className="absolute -top-12 right-0 text-white/70 hover:text-amber-400 transition-colors p-2"
+                            >
+                                <X className="w-8 h-8" />
+                            </button>
+
+                            <img
+                                src={passportPhotoUrl}
+                                alt="Passport Full Size"
+                                className="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl bg-black border border-white/10"
+                            />
+
+                            <div className="mt-6 flex gap-4">
+                                <a
+                                    href={passportPhotoUrl}
+                                    download={`passport-${client?.firstName || 'client'}.jpg`}
+                                    className="px-6 py-2 bg-amber-500 text-white font-bold uppercase tracking-wider rounded-sm hover:bg-amber-600 transition-colors flex items-center gap-2 shadow-lg shadow-amber-900/20"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Download className="w-5 h-5" />
+                                    Descargar Original
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }
