@@ -33,7 +33,7 @@ interface ClientState {
 
 export const useClientStore = create<ClientState>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             clients: [],
             agencyName: 'DK Asesorias',
             agencyLogo: '',
