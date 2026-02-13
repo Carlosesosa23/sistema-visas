@@ -88,17 +88,17 @@ export function ExcelImporter() {
                         tags.push('Lista para Entrevista');
                     } else if (argb === 'FFFF0000') { // Red
                         status = 'rejected';
-                    } else if (argb === 'FFFF00FF') { // Purple/Magenta
-                        status = 'pending';
-                        tags.push('Falta Formulario');
-                    } else if (argb === 'FFFFFF00' || argb === 'FFFF9900') { // Yellow / Orange
-                        status = 'pending';
-                        tags.push('Revisar');
-                    } else if (argb === 'FF00FFFF' || argb === 'FFC9DAF8') { // Cyan / Pale Blue
-                        status = 'approved';
-                    } else if (argb === 'FF4A86E8') { // Darker Blue
+                    } else if (argb === 'FFFF00FF') { // Purple/Magenta -> Llenando DS (New)
                         status = 'ds160';
                         tags.push('Llenando Formulario');
+                    } else if (argb === 'FFFFFF00' || argb === 'FFFF9900') { // Yellow / Orange -> Pendiente Revisión
+                        status = 'pending';
+                        tags.push('Revisar');
+                    } else if (argb === 'FF00FFFF' || argb === 'FFC9DAF8') { // Cyan / Pale Blue -> Aprobada
+                        status = 'approved';
+                    } else if (argb === 'FF4A86E8') { // Darker Blue -> Falta Formulario (New)
+                        status = 'pending';
+                        tags.push('Falta Formulario');
                     }
 
 
