@@ -115,12 +115,37 @@ export const useClientStore = create<ClientState>()(
                 set((state) => ({ clients: [...newClients, ...state.clients] }));
 
                 const rows = newClients.map(client => ({
+                    id: client.id,
                     first_name: client.firstName,
                     last_name: client.lastName,
+                    email: client.email || null,
+                    phone: client.phone || null,
+                    passport_number: client.passportNumber || null,
                     status: client.status,
                     tags: client.tags || [],
+                    notes: client.notes || 'Importado desde Excel',
                     appointment_date: client.appointmentDate || null,
-                    notes: 'Importado desde Excel'
+                    appointment_time: client.appointmentTime || null,
+                    ds_application_id: client.dsApplicationId || null,
+                    // password: client.password || null // Add if 'password' column exists in Supabase. Assuming user implies it does or puts it in notes. 
+                    // Based on previous code, password was being put in notes. But let's check if we should map it.
+                    // The user said "CONTRASEÑA -> password". 
+                    // If the DB doesn't have a password column, this might fail unless we know for sure. 
+                    // However, looking at `updateClient` above, it DOES NOT update `password`. 
+                    // Wait, `updateClient` logic doesn't have `password`. 
+                    // Let's look at `notes`. The user wanted OBSERVACIONES -> notes. 
+                    // Let's stick to the fields we know exist in `updateClient` plus `ds_application_id`.
+                    // Actually `updateClient` DOES NOT have `password`.
+                    // But `addClient` (singular) DOES NOT have `password` mapped in the insert either!
+                    // Wait, `addClient` logs:
+                    // first_name, last_name, email, phone, passport_number, status, tags, notes, appointment_date, appointment_time, appointment_location, ds_application_id, ds160_url, appointment_confirmation_url, passport_photo_url.
+                    // NO `password` column in `addClient`.
+                    // So `password` from Excel MUST go into `notes` or be ignored if there's no column. 
+                    // The ExcelImporter puts `Pass: ...` in stats/notes if needed? 
+                    // In ExcelImporter.tsx:
+                    // `if (password) notesParts.push("Pass: " + password);`
+                    // So password is ALREADY in `notes`.
+                    // We just need to ensure `notes` field is passed!
                 }));
 
                 const { error } = await supabase.from('clients').insert(rows);
