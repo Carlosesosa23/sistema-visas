@@ -39,7 +39,7 @@ export const useClientStore = create<ClientState>()(
             agencyLogo: '',
             whatsappTemplates: {
                 pending: 'Hola {nombre}, le saludamos de {agencia}. Le recordamos que su trámite está pendiente de pago/información.',
-                ready: 'Hola {nombre}, buenas noticias. Su cita para la visa ya está programada para el {fecha}.',
+                ready: 'Hola {nombre}, buenas noticias. Su cita para la visa ya está programada para el {fecha} a las {hora}.',
                 approved: '¡Felicidades {nombre}! Su visa ha sido aprobada. Le avisaremos cuando llegue su pasaporte.'
             },
             availableTags: ['Renovación', 'Primera Vez', 'Urgente', 'VIP'],
