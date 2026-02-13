@@ -1,0 +1,550 @@
+--- Sheets Analysis ---
+Skipping ignored sheet: INFO INCOMPLETA
+
+Sheet: ENERO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "WENDY JOHANA PADILLA ESTRADA",
+    46023,
+    null,
+    null,
+    "AA00DIZPHP",
+    "wendyjohanapadillaestrada@gmail.com",
+    "DK6",
+    null,
+    "VERIFICAR MIGRACION"
+  ],
+  [
+    "IRIS LEONILA NUNEZ",
+    46027,
+    0.4375,
+    "3251-1407",
+    "AA00DVQGRX",
+    "nunezleonila25@gmail.com",
+    "DK7",
+    "visa2024",
+    "MIGRADO"
+  ],
+  [
+    "DUNIA LORENA ORDONEZ",
+    46029,
+    0.3854166666666667,
+    98617216,
+    "AA00CZ3RRZ",
+    "duniarivera25@yahoo.com",
+    "DK6",
+    "visa2024",
+    "MIGRADO"
+  ]
+]
+
+Sheet: FEBRERO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "ENMA SAGRARIO RAMOS MACEDO",
+    45714,
+    0.34375,
+    null,
+    "AA00COB2K",
+    "enmasagrarioramos@gmail.com",
+    "DK4",
+    "visa2024"
+  ],
+  [
+    "LUCINDA DE JESUS BAQUEDANO QUIROZ",
+    46055,
+    0.3333333333333333,
+    null,
+    "AA00F9IQAL",
+    "lucy_baquedano@yahoo.com",
+    null,
+    "visa2024",
+    "MIGRADO"
+  ],
+  [
+    "LESLIE ROSELIA IZAGUIRRE BOURDETH",
+    46055,
+    0.3125,
+    null,
+    "AA00FARDL5",
+    "izaguirreleslie69@gmail.com",
+    null,
+    "visa2024"
+  ]
+]
+
+Sheet: MARZO
+Headers:
+[
+  "NOMBRE",
+  "NOMBRE",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "ANGEL MAURICIO PONCE CORDOVA",
+    46083,
+    0.375,
+    "9335-6629",
+    "AA00E1VQ6L",
+    "mp3318642@gmail.com",
+    "DK8",
+    "visa2024",
+    "MIGRADO"
+  ],
+  [
+    "YORDY MAURICIO PONCE LOPEZ",
+    46083,
+    0.375,
+    "9335-6629",
+    "AA00E1W03T",
+    "mp3318642@gmail.com",
+    "DK8",
+    "visa2024",
+    "MIGRADO"
+  ],
+  [
+    "ELVIA NOEMY CARCAMO LICONA",
+    46083,
+    0.4270833333333333,
+    null,
+    "AA00EWDNRD",
+    "mrivascarcamo350@gmail.com",
+    null,
+    "visa2025"
+  ]
+]
+
+Sheet: ABRIL
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "CARLO ALEJANDRO MATUTE REYES",
+    46113,
+    0.5729166666666666,
+    null,
+    "AA00EX84OF",
+    "cmatute96@gmail.com",
+    null,
+    "visa2025"
+  ],
+  [
+    "CHRISTIAN OMAR IZAGUIRRE ALMENDAREZ",
+    46113,
+    0.5729166666666666,
+    null,
+    "AA00EX892T",
+    "chris.izaguirre94@gmail.com",
+    null,
+    "visa2025"
+  ],
+  [
+    "NORMA LETICIA ZAMORA GODOY ",
+    46113,
+    0.5625,
+    "9938-2610",
+    "AA00F48LWT",
+    "lvalladareszamora@gmail.com\r",
+    null,
+    "Normaleticiaz2025@"
+  ]
+]
+
+Sheet: MAYO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "HEATHER DENISSE BERRIOS FLORIAN ",
+    46146,
+    0.4375,
+    "9857‑7748",
+    "AA00F6UGA3",
+    "berriosdenis87@gmail.com",
+    null,
+    "Marinaquiroz2025@",
+    "MOVER CITA"
+  ],
+  [
+    "ARIANY MONSERRATH CALIX FLORIAN",
+    46146,
+    0.4375,
+    "9857‑7748",
+    "AA00F6UHSJ",
+    "berriosdenis87@gmail.com",
+    null,
+    "Marinaquiroz2025@"
+  ],
+  [
+    "NANSI LORENA FLORIAN ESPINAL ",
+    46146,
+    0.4375,
+    "9857‑7748",
+    "AA00F6J9VZ",
+    "berriosdenis87@gmail.com",
+    null,
+    "Marinaquiroz2025@"
+  ]
+]
+
+Sheet: JUNIO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "ARIANA MICHELL FUNEZ HERNANDEZ",
+    46174,
+    0.3958333333333333,
+    null,
+    "AA00EWSCON",
+    "magalieo27@gmail.com",
+    null,
+    "visa2025",
+    "NO MOVER MÁS LA CITA"
+  ],
+  [
+    "CARLOS FERNANDO PEREZ ZELAYA",
+    46174,
+    0.4479166666666667,
+    "9983-5008",
+    "AA00F19KOD",
+    "cf.perzel2022@gmail.com",
+    null,
+    "CarlosyJenny2025$",
+    null,
+    "NO SE LE PUDO AVISAR"
+  ],
+  [
+    "JENNY VALENZUELA RODRIGUEZ",
+    46174,
+    0.4479166666666667,
+    "9983-5008",
+    "AA00F19SBX",
+    "cf.perzel2022@gmail.com",
+    null,
+    "CarlosyJenny2025$"
+  ]
+]
+
+Sheet: JULIO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "TATIANA YAMILETH ELVIR ZUNIGA",
+    46205,
+    0.3958333333333333,
+    null,
+    "AA00FAAED3",
+    "tatyselvir30@gmail.com",
+    null,
+    "Tatianayamilethe2026@"
+  ],
+  [
+    "DENIS ENRIQUE SMART RAUDALES",
+    46210,
+    0.3958333333333333,
+    "9930-9288",
+    "AA00FA3LUN",
+    "dcr_smartraudales@hotmail.com",
+    null,
+    "Denisesmart2026@"
+  ],
+  [
+    "KAREN MAVEL CABRERA FLORES",
+    46220,
+    0.3958333333333333,
+    "3331-8165",
+    "AA00F4ZD6R",
+    "floresmavelcabrera@gmail.com",
+    null,
+    "Karenmavelc2025@",
+    "floresmavelcabrera@gmail.com"
+  ]
+]
+
+Sheet: AGOSTO
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "SAILY NAZARETH ALMENDARES RODRIGUEZ",
+    46238,
+    0.375,
+    null,
+    "AA00F68823",
+    "almendaresnazareth389@gmail.com",
+    null,
+    "Saily@lmendares2025"
+  ],
+  [
+    "YANCY DARIANA VASQUEZ MONTOYA",
+    46240,
+    0.40625,
+    null,
+    "AA00EJHPIV",
+    "fernelitomontoya17@gmail.com",
+    "DK10",
+    "visa2025",
+    "MIGRADO"
+  ],
+  [
+    "GANCYS CARMINDA MONTOYA DOMINGUEZ",
+    46240,
+    0.40625,
+    null,
+    "AA00EJT3RJ",
+    "fernelitomontoya17@gmail.com",
+    "DK10",
+    "visa2025",
+    "MIGRADO"
+  ]
+]
+
+Sheet: SEPTIEMBRE
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "MARIA LUISA GONZALES BARAHONA",
+    46267,
+    0.3958333333333333,
+    "9619-2063",
+    "AA00EOIL2V",
+    "ivaniaduron0806@gmail.com",
+    null,
+    "VISA2025",
+    "MIGRADO"
+  ],
+  [
+    "MARTHA ELISA ORDONEZ ALVARADO",
+    46267,
+    0.40625,
+    "9920-4045",
+    "AA00EOJ14Z",
+    "ivaniaduron0806@gmail.com",
+    null,
+    "VISA2025",
+    "MIGRADO"
+  ],
+  [
+    "MIGUEL EDGARDO DIAZ ZUNIGA ",
+    46269,
+    0.3125,
+    89487051,
+    "AA00EQA20D",
+    "edgardozuniga706@gmail.com",
+    null,
+    "visa2025",
+    "MIGRADO"
+  ]
+]
+
+Sheet: OCTUBRE
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "Leslia Edith Sarmiento Guardado",
+    46324,
+    0.375,
+    "8876-9834",
+    "AA00EZS00Z",
+    "lesliaedith@gmail.com",
+    null,
+    "visa2025",
+    "NO MOVER  MÁS LA CITA POR SOLICITUD DE LESLIA"
+  ],
+  [],
+  []
+]
+
+Sheet: NOVIEMBRE
+Headers:
+[
+  "NOMBRE",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "IVON ISAMAR AMADOR MARTINEZ",
+    46328,
+    0.375,
+    32602154,
+    "AA00EUTW3T",
+    "amadormartinezivonisamar@gmail.com",
+    null,
+    "visa2025",
+    "NO MOVER MÁS LA CITA "
+  ],
+  [
+    "CARLA YULISSA GIRON BANEGAS",
+    46350,
+    0.4166666666666667,
+    null,
+    "AA00F524G5",
+    "carlagiron15@gmail.com",
+    null,
+    "Carlayulissagiron2025@"
+  ],
+  []
+]
+
+Sheet: DICIEMBRE
+Headers:
+[
+  "N",
+  "FECHA CITA",
+  "HORA",
+  "CELULAR",
+  "DS APLICACIÓN",
+  "CORREO",
+  "LISTADO",
+  "CONTRASEÑA",
+  "OBSERVACION"
+]
+Sample Data (First 3 rows):
+[
+  [
+    "SUNY LIZBETH SARMIENTO GUARDADO ",
+    46358,
+    0.34375,
+    "9728-8830",
+    "AA00EZRURZ",
+    "sunysarmiento1984@gmail.com",
+    null,
+    "visa2025",
+    "NO MOVER MÁS LA CITA POR SOLICITUD DE SUNY"
+  ],
+  [
+    "LUIS RENE RODRIGUEZ ORREGO",
+    46373,
+    0.3854166666666667,
+    "9536-3507",
+    "AA00F0N7XX",
+    "luisrodriguez232630@gmail.com",
+    null,
+    "visa2025",
+    "AA00EWSCON"
+  ],
+  []
+]
