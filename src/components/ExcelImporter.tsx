@@ -40,6 +40,7 @@ export function ExcelImporter() {
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.load(arrayBuffer);
 
+
             const newClients: Client[] = [];
 
             workbook.eachSheet((worksheet) => {
@@ -47,21 +48,41 @@ export function ExcelImporter() {
                 const sheetName = worksheet.name.toLowerCase();
                 if (sheetName.includes('info incompleta')) return;
 
+                // 1. Detect Headers in Row 1 (or first non-empty row)
+                const colMap: Record<string, number> = {
+                    name: 1, // Fallbacks
+                    date: 2,
+                    time: 3,
+                    phone: 4,
+                    ds: 5,
+                    email: 6,
+                    tags: 7,
+                    password: 8,
+                    observation: 9
+                };
+
+                // Scan Row 1 for headers
+                const headerRow = worksheet.getRow(1);
+                headerRow.eachCell((cell, colNumber) => {
+                    const val = (cell.text || cell.value?.toString() || '').toLowerCase().trim();
+                    if (val.includes('nombre') || val.includes('cliente')) colMap.name = colNumber;
+                    else if (val.includes('fecha') || val.includes('cita')) colMap.date = colNumber;
+                    else if (val.includes('hora')) colMap.time = colNumber;
+                    else if (val.includes('celular') || val.includes('telefono') || val.includes('teléfono') || val.includes('móvil')) colMap.phone = colNumber;
+                    else if (val.includes('ds') || val.includes('aplicacion') || val.includes('aplicación')) colMap.ds = colNumber;
+                    else if (val.includes('correo') || val.includes('email')) colMap.email = colNumber;
+                    else if (val.includes('listado') || val.includes('tag')) colMap.tags = colNumber;
+                    else if (val.includes('contraseña') || val.includes('password') || val.includes('clave')) colMap.password = colNumber;
+                    else if (val.includes('observacion') || val.includes('nota')) colMap.observation = colNumber;
+                });
+
+                console.log(`Sheet "${sheetName}" mapping:`, colMap);
+
                 worksheet.eachRow((row, rowNumber) => {
                     if (rowNumber <= 1) return; // Skip headers
 
-                    // Cell Mapping (Based on Analysis)
-                    // Col 1 (A): NAME (and Color Code)
-                    // Col 2 (B): FECHA CITA
-                    // Col 3 (C): HORA
-                    // Col 4 (D): CELULAR
-                    // Col 5 (E): DS APLICACION
-                    // Col 6 (F): CORREO
-                    // Col 7 (G): LISTADO
-                    // Col 8 (H): CONTRASEÑA
-                    // Col 9 (I): OBSERVACION
-
-                    const nameCell = row.getCell(1);
+                    // Use detected columns
+                    const nameCell = row.getCell(colMap.name);
                     const nameVal = nameCell.text || nameCell.value?.toString() || '';
                     if (!nameVal) return;
 
@@ -88,7 +109,7 @@ export function ExcelImporter() {
                         tags.push('Lista para Entrevista');
                     } else if (argb === 'FFFF0000') { // Red
                         status = 'rejected';
-                    } else if (argb === 'FFFF00FF') { // Purple/Magenta -> Llenando DS (New)
+                    } else if (argb === 'FFFF00FF') { // Purple/Magenta -> Llenando DS
                         status = 'ds160';
                         tags.push('Llenando Formulario');
                     } else if (argb === 'FFFFFF00' || argb === 'FFFF9900') { // Yellow / Orange -> Pendiente Revisión
@@ -96,14 +117,14 @@ export function ExcelImporter() {
                         tags.push('Revisar');
                     } else if (argb === 'FF00FFFF' || argb === 'FFC9DAF8') { // Cyan / Pale Blue -> Aprobada
                         status = 'approved';
-                    } else if (argb === 'FF4A86E8') { // Darker Blue -> Falta Formulario (New)
+                    } else if (argb === 'FF4A86E8') { // Darker Blue -> Falta Formulario
                         status = 'pending';
                         tags.push('Falta Formulario');
                     }
 
 
                     // Date & Time
-                    const dateVal = row.getCell(2).value;
+                    const dateVal = row.getCell(colMap.date).value;
                     let appointmentDate = '';
                     if (typeof dateVal === 'number') {
                         appointmentDate = excelDateToJSDate(dateVal);
@@ -111,34 +132,31 @@ export function ExcelImporter() {
                         appointmentDate = dateVal.toISOString().split('T')[0];
                     }
 
-                    const timeVal = row.getCell(3).value;
+                    const timeVal = row.getCell(colMap.time).value;
                     let appointmentTime = '';
                     if (typeof timeVal === 'number') {
                         appointmentTime = excelTimeToHHMM(timeVal);
                     } else if (typeof timeVal === 'string') {
                         appointmentTime = timeVal;
                     } else if (timeVal instanceof Date) {
-                        // Extract HH:MM from Date object
                         const hours = timeVal.getHours().toString().padStart(2, '0');
                         const minutes = timeVal.getMinutes().toString().padStart(2, '0');
                         appointmentTime = `${hours}:${minutes}`;
                     } else if (timeVal && typeof timeVal === 'object' && 'result' in timeVal) {
-                        // Handle formulae result if applicable, though usually value is enough
-                        // For now, check if value is string or number in result, or ignore
                         const val = (timeVal as any).result;
                         if (typeof val === 'number') appointmentTime = excelTimeToHHMM(val);
                         else if (typeof val === 'string') appointmentTime = val;
                     }
 
                     // Other Fields
-                    const phone = row.getCell(4).text || '';
-                    const dsAppId = row.getCell(5).text || '';
-                    const email = row.getCell(6).text || '';
-                    const listadoTag = row.getCell(7).text || '';
-                    if (listadoTag) tags.push(listadoTag); // 'DK6' etc
+                    const phone = row.getCell(colMap.phone).text || '';
+                    const dsAppId = row.getCell(colMap.ds).text || '';
+                    const email = row.getCell(colMap.email).text || '';
+                    const listadoTag = row.getCell(colMap.tags).text || '';
+                    if (listadoTag) tags.push(listadoTag);
 
-                    const password = row.getCell(8).text || '';
-                    const observacion = row.getCell(9).text || '';
+                    const password = row.getCell(colMap.password).text || '';
+                    const observacion = row.getCell(colMap.observation).text || '';
 
                     // Construct Notes
                     const notesParts = [];
