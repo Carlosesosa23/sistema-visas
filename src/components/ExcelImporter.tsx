@@ -87,7 +87,13 @@ export function ExcelImporter() {
                 }
 
                 if (colMap.name === -1) {
-                    throw new Error("No se detectaron las columnas 'Nombre' o 'Cliente'. Verifique el archivo.");
+                    // Fallback: If "Nombre" not found, assume Column 1 is Name
+                    // console.warn(`Sheet "${sheetName}": "Nombre" column not found. Defaulting to Column 1.`);
+                    colMap.name = 1;
+                    if (headerRowNumber === 1 && !foundHeaders) {
+                        // If we didn't find ANY headers, maybe row 1 is data?
+                        // Let's keep headerRowNumber = 1, so data starts at row 2.
+                    }
                 }
 
                 console.log(`Sheet "${sheetName}" mapping:`, colMap);
