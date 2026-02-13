@@ -117,6 +117,17 @@ export function ExcelImporter() {
                         appointmentTime = excelTimeToHHMM(timeVal);
                     } else if (typeof timeVal === 'string') {
                         appointmentTime = timeVal;
+                    } else if (timeVal instanceof Date) {
+                        // Extract HH:MM from Date object
+                        const hours = timeVal.getHours().toString().padStart(2, '0');
+                        const minutes = timeVal.getMinutes().toString().padStart(2, '0');
+                        appointmentTime = `${hours}:${minutes}`;
+                    } else if (timeVal && typeof timeVal === 'object' && 'result' in timeVal) {
+                        // Handle formulae result if applicable, though usually value is enough
+                        // For now, check if value is string or number in result, or ignore
+                        const val = (timeVal as any).result;
+                        if (typeof val === 'number') appointmentTime = excelTimeToHHMM(val);
+                        else if (typeof val === 'string') appointmentTime = val;
                     }
 
                     // Other Fields
