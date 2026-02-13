@@ -150,6 +150,24 @@ export function ExcelImporter() {
                         appointmentDate = excelDateToJSDate(dateVal);
                     } else if (dateVal instanceof Date) {
                         appointmentDate = dateVal.toISOString().split('T')[0];
+                    } else if (typeof dateVal === 'string') {
+                        // Try parsing string dates
+                        const cleanDate = dateVal.trim();
+                        // Check for YYYY-MM-DD
+                        if (/^\d{4}-\d{2}-\d{2}$/.test(cleanDate)) {
+                            appointmentDate = cleanDate;
+                        }
+                        // Check for DD/MM/YYYY or DD-MM-YYYY
+                        else if (/^\d{1,2}[/-]\d{1,2}[/-]\d{4}$/.test(cleanDate)) {
+                            const parts = cleanDate.split(/[/-]/);
+                            if (parts.length === 3) {
+                                // Assume DD/MM/YYYY (Latin)
+                                const d = parts[0].padStart(2, '0');
+                                const m = parts[1].padStart(2, '0');
+                                const y = parts[2];
+                                appointmentDate = `${y}-${m}-${d}`;
+                            }
+                        }
                     }
 
                     const timeVal = colMap.time > 0 ? row.getCell(colMap.time).value : null;
