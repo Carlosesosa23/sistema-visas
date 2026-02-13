@@ -48,53 +48,43 @@ export function ExcelImporter() {
                 const sheetName = worksheet.name.toLowerCase();
                 if (sheetName.includes('info incompleta')) return;
 
-                // 1. Detect Headers in Row 1 (or first non-empty row)
-                // 1. Detect Headers (Scan first 10 rows)
-                // 1. Detect Headers (Scan first 10 rows)
+                // 1. Detect Headers (Scan first 20 rows)
                 let headerRowNumber = 1;
-                /* 
-                 * Scoring System:
-                 * Check first 10 rows. For each row, count how many recognized headers are found.
-                 * The row with the highest score is considered the header row.
-                 */
-                let bestHeaderRow = 1;
-                let maxScore = 0;
-                let bestColMap: Record<string, number> = {
+                const colMap: Record<string, number> = {
                     name: -1, date: -1, time: -1, phone: -1, ds: -1, email: -1, tags: -1, password: -1, observation: -1
                 };
 
-                for (let r = 1; r <= 10; r++) {
+                let foundHeaders = false;
+
+                for (let r = 1; r <= 20; r++) {
                     const row = worksheet.getRow(r);
-                    let currentScore = 0;
-                    const currentMap = { ...bestColMap }; // Start fresh for this row
 
                     row.eachCell((cell, colNumber) => {
                         const val = (cell.text || cell.value?.toString() || '').toLowerCase().trim();
-
-                        if (val === '') return; // Skip empty cells
-
-                        // Strict Keyword Matching (Add more specific variations if needed)
-                        if (val.includes('nombre') || val.includes('cliente') || val.includes('nombres')) { currentMap.name = colNumber; currentScore += 3; } // Higher weight for Name
-                        else if (val.includes('fecha') || val.includes('cita')) { currentMap.date = colNumber; currentScore++; }
-                        else if (val.includes('hora')) { currentMap.time = colNumber; currentScore++; }
-                        else if (val.includes('celular') || val.includes('telefono') || val.includes('teléfono') || val.includes('móvil') || val.includes('cel')) { currentMap.phone = colNumber; currentScore++; }
-                        else if (val.includes('ds') || val.includes('aplicacion') || val.includes('aplicación')) { currentMap.ds = colNumber; currentScore++; }
-                        else if (val.includes('correo') || val.includes('email') || val.includes('e-mail')) { currentMap.email = colNumber; currentScore++; }
-                        else if (val.includes('listado') || val.includes('tag') || val.includes('etiqueta')) { currentMap.tags = colNumber; currentScore++; }
-                        else if (val.includes('contraseña') || val.includes('password') || val.includes('clave') || val.includes('pass')) { currentMap.password = colNumber; currentScore++; }
-                        else if (val.includes('observacion') || val.includes('nota') || val.includes('seguimiento') || val.includes('obs')) { currentMap.observation = colNumber; currentScore++; }
+                        if (val.includes('nombre') || val.includes('cliente') || val.includes('nombres')) {
+                            colMap.name = colNumber;
+                            headerRowNumber = r; // Found our header row
+                            foundHeaders = true;
+                        }
                     });
 
-                    if (currentScore > maxScore) {
-                        maxScore = currentScore;
-                        bestHeaderRow = r;
-                        bestColMap = currentMap;
+                    if (foundHeaders) {
+                        // Once we found "Nombre", finding other columns in THIS row
+                        row.eachCell((cell, colNumber) => {
+                            const val = (cell.text || cell.value?.toString() || '').toLowerCase().trim();
+
+                            if (val.includes('fecha') || val.includes('cita')) colMap.date = colNumber;
+                            else if (val.includes('hora')) colMap.time = colNumber;
+                            else if (val.includes('celular') || val.includes('telefono') || val.includes('teléfono') || val.includes('móvil') || val.includes('cel')) colMap.phone = colNumber;
+                            else if (val.includes('ds') || val.includes('aplicacion') || val.includes('aplicación')) colMap.ds = colNumber;
+                            else if (val.includes('correo') || val.includes('email') || val.includes('e-mail')) colMap.email = colNumber;
+                            else if (val.includes('listado') || val.includes('tag') || val.includes('etiqueta')) colMap.tags = colNumber;
+                            else if (val.includes('contraseña') || val.includes('password') || val.includes('clave') || val.includes('pass')) colMap.password = colNumber;
+                            else if (val.includes('observacion') || val.includes('nota') || val.includes('seguimiento') || val.includes('obs')) colMap.observation = colNumber;
+                        });
+                        break; // Stop scanning rows
                     }
                 }
-
-                // Apply best result
-                headerRowNumber = bestHeaderRow;
-                const colMap = bestColMap;
 
                 if (colMap.name === -1) {
                     throw new Error("No se detectaron las columnas 'Nombre' o 'Cliente'. Verifique el archivo.");
