@@ -86,6 +86,10 @@ export function ExcelImporter() {
                     }
                 }
 
+                if (colMap.name === -1) {
+                    throw new Error("No se detectaron las columnas 'Nombre' o 'Cliente'. Verifique el archivo.");
+                }
+
                 console.log(`Sheet "${sheetName}" mapping:`, colMap);
 
                 worksheet.eachRow((row, rowNumber) => {
@@ -134,7 +138,7 @@ export function ExcelImporter() {
 
 
                     // Date & Time
-                    const dateVal = row.getCell(colMap.date).value;
+                    const dateVal = colMap.date > 0 ? row.getCell(colMap.date).value : null;
                     let appointmentDate = '';
                     if (typeof dateVal === 'number') {
                         appointmentDate = excelDateToJSDate(dateVal);
@@ -142,7 +146,7 @@ export function ExcelImporter() {
                         appointmentDate = dateVal.toISOString().split('T')[0];
                     }
 
-                    const timeVal = row.getCell(colMap.time).value;
+                    const timeVal = colMap.time > 0 ? row.getCell(colMap.time).value : null;
                     let appointmentTime = '';
                     if (typeof timeVal === 'number') {
                         appointmentTime = excelTimeToHHMM(timeVal);
@@ -158,15 +162,17 @@ export function ExcelImporter() {
                         else if (typeof val === 'string') appointmentTime = val;
                     }
 
-                    // Other Fields
-                    const phone = row.getCell(colMap.phone).text || '';
-                    const dsAppId = row.getCell(colMap.ds).text || '';
-                    const email = row.getCell(colMap.email).text || '';
-                    const listadoTag = row.getCell(colMap.tags).text || '';
+                    // Other Fields - Safe Access
+                    const getSafeText = (colIndex: number) => (colIndex > 0 ? (row.getCell(colIndex).text || '') : '');
+
+                    const phone = getSafeText(colMap.phone);
+                    const dsAppId = getSafeText(colMap.ds);
+                    const email = getSafeText(colMap.email);
+                    const listadoTag = getSafeText(colMap.tags);
                     if (listadoTag) tags.push(listadoTag);
 
-                    const password = row.getCell(colMap.password).text || '';
-                    const observacion = row.getCell(colMap.observation).text || '';
+                    const password = getSafeText(colMap.password);
+                    const observacion = getSafeText(colMap.observation);
 
                     // Construct Notes
                     const notesParts = [];
