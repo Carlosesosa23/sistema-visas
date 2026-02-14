@@ -101,7 +101,8 @@ export const useClientStore = create<ClientState>()(
                     ds_application_id: client.dsApplicationId || null,
                     ds160_url: client.ds160Url || null,
                     appointment_confirmation_url: client.appointmentConfirmationUrl || null,
-                    passport_photo_url: client.passportPhotoUrl || null
+                    passport_photo_url: client.passportPhotoUrl || null,
+                    password: client.password || null
                 });
 
                 if (error) {
@@ -177,6 +178,7 @@ export const useClientStore = create<ClientState>()(
                 if (updates.ds160Url !== undefined) dbUpdates.ds160_url = updates.ds160Url || null;
                 if (updates.appointmentConfirmationUrl !== undefined) dbUpdates.appointment_confirmation_url = updates.appointmentConfirmationUrl || null;
                 if (updates.passportPhotoUrl !== undefined) dbUpdates.passport_photo_url = updates.passportPhotoUrl || null;
+                if (updates.password !== undefined) dbUpdates.password = updates.password || null;
 
                 const { error } = await supabase.from('clients').update(dbUpdates).eq('id', id);
                 if (error) console.error('Error updating client:', error);
