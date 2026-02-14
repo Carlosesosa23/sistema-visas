@@ -76,7 +76,8 @@ export const useClientStore = create<ClientState>()(
                     passportPhotoUrl: row.passport_photo_url,
                     role: row.role, // If enabled later
                     createdAt: row.created_at,
-                    appointmentLocation: row.appointment_location
+                    appointmentLocation: row.appointment_location,
+                    password: row.password
                 }));
                 set({ clients: mappedClients });
             },
